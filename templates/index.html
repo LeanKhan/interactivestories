@@ -1,0 +1,46 @@
+{% extends "layout.html" %} {% block head %}
+<link rel="stylesheet" href="/static/viewer.css" />
+
+{% endblock %} {% block content %}
+<div class="container mb-3">
+  <h3>Interactive Stories</h3>
+  <p>
+	Upload your PowerPoint stories
+
+	<button class="btn btn-primary">Upload</button>
+  </p>
+</div>
+
+<div class="container text-center">
+  <div class="row row-cols-3">
+    {% for story in stories %}
+    <div class="col">
+      <div class="card mb-4" style="width: 22rem">
+        <a href="/stories/1">
+			<img
+          src="{{ story.image_url }}"
+          class="card-img-top"
+          alt="Story Image"
+        />
+		</a>
+        <div class="card-body">
+          <h5 class="card-title">{{ story.title }}</h5>
+          <p class="card-text text-muted">by {{ story.author }}</p>
+
+          <div class="mb-0">
+            {% for tag in story.tags %}
+            <span class="badge bg-info text-dark">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-top-0">
+          <a href="#" class="card-link text-primary">3 Comments</a>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

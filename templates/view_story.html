@@ -1,0 +1,28 @@
+{% extends "layout.html" %} {% block head %}
+<link rel="stylesheet" href="/static/viewer.css" />
+<link rel="stylesheet" href="/static/pdfjs-5.4.54-dist/web/viewer.css" />
+
+<script src="/static/pdfjs-5.4.54-dist/build/pdf.mjs" type="module"></script>
+<script src="/static/pdfjs-5.4.54-dist/web/viewer.mjs" type="module"></script>
+{% endblock %} {% block content %}
+
+<header>Stories!</header>
+
+<div class="card bg-white viewer-exit-button">
+  <a class="button btn" href="/">Exit</a>
+</div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-12">
+      <div id="viewerContainer">
+        <div id="viewer" class="pdfViewer"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/static/pdf-viewer.mjs" type="module"></script>
+
+{% endblock %}

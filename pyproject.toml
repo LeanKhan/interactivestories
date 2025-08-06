@@ -1,0 +1,14 @@
+[project]
+name = "pdf-stories"
+version = "0.1.0"
+description = "Play PPT Interactive Stories"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.1",
+    "jinja-layout>=0.4.0",
+    "pysondb>=1.6.7",
+    "python-dotenv>=1.1.1",
+    "python-pptx>=1.0.2",
+    "watchdog>=6.0.0",
+]
