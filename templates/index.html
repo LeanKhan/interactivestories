@@ -5,10 +5,14 @@
 <div class="container mb-3">
   <h3>Interactive Stories</h3>
   <p>
-	Upload your PowerPoint stories
+	Interactive stories are stories that have alternative branches at different points. Part of our research is to see if making these 
+  stories using Microsoft PowerPoint can be therapeatuci. There's currently no easy way to share interactive stories created on PowerPoint
+  that is why we created this website. All you need to do is upload your powerpoint and the research team will review it and in a day or two, it will appear here.
 
-	<button class="btn btn-primary">Upload</button>
+  You can take down your story at anytime, just email us.
   </p>
+
+  <p>If you're wondering how to create any of these we created a simple guide: </p>
 </div>
 
 <div class="container text-center">
@@ -16,9 +20,9 @@
     {% for story in stories %}
     <div class="col">
       <div class="card mb-4" style="width: 22rem">
-        <a href="/stories/1">
+        <a href="/stories/{{ story.id }}">
 			<img
-          src="{{ story.image_url }}"
+          src=" {{ story.thumbnail_url }}"
           class="card-img-top"
           alt="Story Image"
         />
@@ -33,9 +37,9 @@
             {% endfor %}
           </div>
         </div>
-        <div class="card-footer bg-transparent border-top-0">
+        <!-- <div class="card-footer bg-transparent border-top-0">
           <a href="#" class="card-link text-primary">3 Comments</a>
-        </div>
+        </div> -->
       </div>
     </div>
 

@@ -14,7 +14,7 @@ from models.story import Tag, db, Story
 from flask_admin import Admin
 from wtforms import FileField
 
-UPLOAD_FOLDER = './uploads'
+
 ALLOWED_EXTENSIONS = {'pptx', 'ppt'}
 
 app = Flask(__name__)
@@ -23,8 +23,13 @@ app.config["SECRET_KEY"] = "supersecretkeyomg"
 
 app.config["UPLOAD_FOLDER"] = os.path.join(os.getcwd(), "uploads")
 
-app.config["FILE_UPLOAD_FOLDER"] = os.path.join(app.config["UPLOAD_FOLDER"], "files")
-app.config["THUMBNAIL_UPLOAD_FOLDER"] = os.path.join(app.config["UPLOAD_FOLDER"], "thumbnails")
+app.config["UPLOAD_FOLDER_RELATIVE"] = 'uploads'
+
+app.config["FILE_UPLOAD_FOLDER_RELATIVE"] = "pdfs"
+app.config["THUMBNAIL_UPLOAD_FOLDER_RELATIVE"] = "thumbnails"
+
+app.config["FILE_UPLOAD_FOLDER"] = os.path.join(app.config["UPLOAD_FOLDER"], app.config["FILE_UPLOAD_FOLDER_RELATIVE"])
+app.config["THUMBNAIL_UPLOAD_FOLDER"] = os.path.join(app.config["UPLOAD_FOLDER"], app.config["THUMBNAIL_UPLOAD_FOLDER_RELATIVE"])
 
 os.makedirs(app.config["FILE_UPLOAD_FOLDER"], exist_ok=True)
 os.makedirs(app.config["THUMBNAIL_UPLOAD_FOLDER"], exist_ok=True)
@@ -70,38 +75,22 @@ admin = Admin(app, name="Local CMS", template_mode="bootstrap3")
 admin.add_view(StoryModelView(Story, db.session))
 admin.add_view(ModelView(Tag, db.session))
 
-stories = [
-        {
-            "id": 1,
-            "title": "The Haunted Lake",
-            "author": "Jane Doe",
-            "tags": ["Horror", "Sad", "Short"],
-            "image_url": "https://placehold.co/400x300"
-        },
-        {
-            "id": 2,
-            "title": "Sunlight & Shadows",
-            "author": "John Smith",
-            "tags": ["Drama", "Poetic"],
-            "image_url": "https://placehold.co/400x300"
-        },
-         {
-            "id": 3,
-            "title": "My time as a street sweeper",
-            "author": "Carla Jepsen",
-            "tags": ["Drama", "Funny"],
-            "image_url": "https://placehold.co/400x300"
-        }
-    ]
-
-
 @app.route('/')
 def index(name=None):
+    stories = Story.query.filter().all()
+    
+    for story in stories:
+        story.thumbnail_url = f"/{ app.config['UPLOAD_FOLDER_RELATIVE'] }/{app.config['THUMBNAIL_UPLOAD_FOLDER_RELATIVE']}/{ story.thumbnail_filename}"
+        story.pdf_url = f"/{ app.config['UPLOAD_FOLDER_RELATIVE'] }/{app.config['FILE_UPLOAD_FOLDER_RELATIVE']}/{ story.filename}"
+
     return render_template('index.html', stories=stories)
 
 @app.route('/stories/<id>')
-def view_story(id=None):
-    return render_template('view_story.html')
+def view_story(id):
+    _story = Story.query.filter(Story.id == id).first_or_404()
+    _story.pdf_url = f"/{ app.config['UPLOAD_FOLDER_RELATIVE'] }/{app.config['FILE_UPLOAD_FOLDER_RELATIVE']}/{ _story.filename}"
+
+    return render_template('view_story.html', story=_story)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -110,6 +99,10 @@ def allowed_file(filename):
 @app.route('/uploads/<name>')
 def download_file(name):
     return send_from_directory(app.config["UPLOAD_FOLDER"], name)
+
+@app.route('/uploads/<path:filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/processed/<name>')
 def download_processed_file(name):

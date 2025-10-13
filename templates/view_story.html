@@ -6,22 +6,66 @@
 <script src="/static/pdfjs-5.4.54-dist/web/viewer.mjs" type="module"></script>
 {% endblock %} {% block content %}
 
-<header>Stories!</header>
+<div class="story-view-wrapper">
+  <!-- Sidebar with Story Details -->
+  <aside class="story-sidebar">
+    <div class="sidebar-header">
+      <a class="button btn btn-back" href="/">← Back</a>
+    </div>
 
-<div class="card bg-white viewer-exit-button">
-  <a class="button btn" href="/">Exit</a>
-</div>
+    <div class="sidebar-content">
+      <h2 class="story-title">{{ story.title }}</h2>
 
-<div class="container">
-  <div class="row">
+      <div class="story-details">
+        <div class="detail-item">
+          <span class="detail-label">Description</span>
+          <p class="detail-value">{{ story.description }}</p>
+        </div>
 
-    <div class="col-12">
-      <div id="viewerContainer">
-        <div id="viewer" class="pdfViewer"></div>
+        <div class="detail-item">
+          <span class="detail-label">Author</span>
+          <span class="detail-value">{{ story.author }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Type</span>
+          <span class="detail-value">📄 PDF Story</span>
+        </div>
+        <!-- Add more metadata here as needed -->
+        <!-- <div class="detail-item">
+          <span class="detail-label">Author</span>
+          <span class="detail-value">{{ story.author }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Added</span>
+          <span class="detail-value">{{ story.created_at }}</span>
+        </div> -->
       </div>
     </div>
-  </div>
+  </aside>
+
+  <!-- PDF Viewer Section -->
+  <main class="pdf-viewer-section">
+    <div id="viewerContainer">
+      <div id="viewer" class="pdfViewer"></div>
+    </div>
+  </main>
 </div>
+
+<script>
+   const _story = {
+    id: "{{ story.id }}",
+    title: "{{ story.title | safe }}",
+    description: "{{ story.description | safe }}",
+    author: "{{ story.author | safe }}",
+    filename: "{{ story.filename }}",
+    pdfUrl: "{{ story.pdf_url }}"
+  };
+
+  console.log('Story => ', _story)
+
+  const DEFAULT_URL = _story.pdfUrl
+
+</script>
 
 <script src="/static/pdf-viewer.mjs" type="module"></script>
 
