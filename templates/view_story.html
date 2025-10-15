@@ -1,14 +1,10 @@
-{% extends "layout.html" %}
-
-{% block head %}
+{% extends "layout.html" %} {% block head %}
 <link rel="stylesheet" href="/static/viewer.css" />
 <link rel="stylesheet" href="/static/pdfjs-5.4.54-dist/web/viewer.css" />
 
 <script src="/static/pdfjs-5.4.54-dist/build/pdf.mjs" type="module"></script>
 <script src="/static/pdfjs-5.4.54-dist/web/viewer.mjs" type="module"></script>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <div class="story-view-wrapper">
   <!-- Sidebar with Story Details -->
   <aside class="story-sidebar">
@@ -35,7 +31,47 @@
           <span class="detail-value">📄 PDF Story</span>
         </div>
       </div>
+
+          <!-- Hints Widget -->
+    <div class="hints-widget mt-5" id="hintsWidget">
+      <div class="hints-header">
+        <h3 class="hints-title">💡 Hints</h3>
+        <button
+          class="hints-close"
+          onclick="document.getElementById('hintsWidget').style.display='none'"
+          aria-label="Close hints"
+        >
+          ✕
+        </button>
+      </div>
+      <div class="hints-content">
+        <div class="hint-item">
+          <img
+            src="/static/assets/videos/cursor-click-animation.gif"
+            alt="Hint to start story"
+            class="hint-image"
+          />
+          <p class="hint-text">
+            Interactive stories are read by clicking links on the page.
+
+            <br />
+
+            Start by clicking the "START" button
+          </p>
+        </div>
+        <!-- <div class="hint-item">
+          <img src="https://via.placeholder.com/300x150/7B68EE/ffffff?text=Tip+2" alt="Hint 2" class="hint-image">
+          <p class="hint-text">Use the navigation arrows to move between pages quickly.</p>
+        </div>
+        <div class="hint-item">
+          <img src="https://via.placeholder.com/300x150/50C878/ffffff?text=Tip+3" alt="Hint 3" class="hint-image">
+          <p class="hint-text">Bookmark your favorite passages by clicking the star icon.</p>
+        </div> -->
+      </div>
     </div>
+    </div>
+
+
   </aside>
 
   <!-- PDF Viewer Section -->
@@ -53,7 +89,7 @@
     description: "{{ story.description | safe }}",
     author: "{{ story.author | safe }}",
     filename: "{{ story.filename }}",
-    pdfUrl: "{{ story.pdf_url }}"
+    pdfUrl: "{{ story.pdf_url }}",
   };
 
   const DEFAULT_URL = _story.pdfUrl;

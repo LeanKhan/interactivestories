@@ -4748,7 +4748,7 @@
 @media (prefers-color-scheme: dark){
 
 :root{
-  --csstools-color-scheme--light:;
+  --csstools-color-scheme--light: blue;
 }
 }
 
@@ -6771,3 +6771,91 @@ dialog :link{
     display:none;
   }
 }
+
+/* Hints Widget Styles */
+    .hints-widget {
+      margin-top: auto;
+      padding: 16px;
+      background: #f8f9fa;
+      border-top: 2px solid #e0e0e0;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .hints-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .hints-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .hints-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #666;
+      cursor: pointer;
+      padding: 4px 8px;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .hints-close:hover {
+      color: #000;
+    }
+
+    .hints-content {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .hint-item {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .hint-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .hint-image {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .hint-text {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    /* Scrollbar styling for hints content */
+    .hints-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .hints-content::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    .hints-content::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 3px;
+    }
+
+    .hints-content::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
