@@ -3,32 +3,39 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <title>PPT - PDF Viewer</title>
+    <title>Interactive Stories - PDF Viewer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- For prod? -->
-    <!-- <link rel="stylesheet" href="https://unpkg.com/chota"> -->
-    <!-- for dev -->
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css" />
+    <meta name="description" content="Share and explore interactive stories created in PowerPoint" />
+    <link rel="stylesheet" href="/static/styles.css" />
     {% block head %} {% endblock %}
   </head>
 
   <body id="top">
-    <div class="container-fluid">
-      <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand mb-0 h1">PPTPDF Viewer</span>
-        <p class="text-muted font-sm">
-          View Interactive Stories created in PPT and converted to PDF ahhh
-        </p>
-      </nav>
-      <div class="container">
-        {% with messages = get_flashed_messages() %} {% if messages %}
-        <ul class="flashes">
-          {% for message in messages %}
-          <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %} {% endwith %} {% block content %}{% endblock %}
+    <nav class="main-nav">
+      <div class="nav-container">
+        <div>
+          <a href="/" class="brand">Interactive Stories</a>
+        </div>
+        <div>
+          <p class="nav-tagline">Explore therapeutic stories with branching narratives</p>
+        </div>
       </div>
-    </div>
+    </nav>
+
+    <main>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="content-wrapper">
+            <ul class="flashes">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
   </body>
 </html>

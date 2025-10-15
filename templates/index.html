@@ -1,50 +1,58 @@
-{% extends "layout.html" %} {% block head %}
-<link rel="stylesheet" href="/static/viewer.css" />
+{% extends "layout.html" %}
 
-{% endblock %} {% block content %}
-<div class="container mb-3">
-  <h3>Interactive Stories</h3>
-  <p>
-	Interactive stories are stories that have alternative branches at different points. Part of our research is to see if making these 
-  stories using Microsoft PowerPoint can be therapeatuci. There's currently no easy way to share interactive stories created on PowerPoint
-  that is why we created this website. All you need to do is upload your powerpoint and the research team will review it and in a day or two, it will appear here.
+{% block content %}
+<section class="hero">
+  <div class="hero-content">
+    <h1>Interactive Stories</h1>
+    <p>
+      The interactive stories presented here were made using PowerPoint. <a href="#">Learn how</a>
+    </p>
+    <a href="#stories" class="hero-cta">Explore Stories</a>
+  </div>
+  <div class="hero-image"></div>
+</section>
 
-  You can take down your story at anytime, just email us.
-  </p>
 
-  <p>If you're wondering how to create any of these we created a simple guide: </p>
-</div>
+<div class="content-wrapper">
+  <section class="info-box">
+    <p>
+      <strong>What are interactive stories?</strong> These are narratives with alternative branches at different points, allowing readers to choose their own path through the story.
+    </p>
+    <p>
+      Our research explores whether creating these stories in Microsoft PowerPoint can be therapeutic. This platform makes it easy to share interactive stories that would otherwise be difficult to distribute.
+    </p>
+    <p>
+      <strong>How it works:</strong> Upload your PowerPoint presentation, and our research team will review it. Within a day or two, your story will appear here for others to explore. You can request removal at any time by contacting us.
+    </p>
+  </section>
 
-<div class="container text-center">
-  <div class="row row-cols-3">
-    {% for story in stories %}
-    <div class="col">
-      <div class="card mb-4" style="width: 22rem">
+  <section id="stories" class="section">
+    <h2 class="section-title">Available Stories</h2>
+
+    <div class="stories-grid">
+      {% for story in stories %}
+      <article class="story-card">
         <a href="/stories/{{ story.id }}">
-			<img
-          src=" {{ story.thumbnail_url }}"
-          class="card-img-top"
-          alt="Story Image"
-        />
-		</a>
-        <div class="card-body">
-          <h5 class="card-title">{{ story.title }}</h5>
-          <p class="card-text text-muted">by {{ story.author }}</p>
-
-          <div class="mb-0">
+          <img
+            src="{{ story.thumbnail_url }}"
+            alt="{{ story.title }} thumbnail"
+          />
+        </a>
+        <div class="story-card-body">
+          <h3 class="story-card-title">
+            <a href="/stories/{{ story.id }}">{{ story.title }}</a>
+          </h3>
+          <p class="story-card-author">by {{ story.author }}</p>
+          <div class="story-tags">
             {% for tag in story.tags %}
-            <span class="badge bg-info text-dark">{{ tag }}</span>
+            <span class="tag">{{ tag }}</span>
             {% endfor %}
           </div>
         </div>
-        <!-- <div class="card-footer bg-transparent border-top-0">
-          <a href="#" class="card-link text-primary">3 Comments</a>
-        </div> -->
-      </div>
+      </article>
+      {% endfor %}
     </div>
-
-    {% endfor %}
-  </div>
+  </section>
 </div>
 
 {% endblock %}
