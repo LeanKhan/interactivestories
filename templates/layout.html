@@ -3,9 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <title>Interactive Stories - PDF Viewer</title>
+    <title>PPT Interactive Stories - PDF Viewer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Share and explore interactive stories created in PowerPoint" />
+    <meta
+      name="description"
+      content="Share and explore interactive stories created in PowerPoint"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="/static/assets/img/favicon.ico"
+    />
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="/static/styles.css" />
     {% block head %} {% endblock %}
   </head>
@@ -13,29 +22,56 @@
   <body id="top">
     <nav class="main-nav">
       <div class="nav-container">
-        <div>
-          <a href="/" class="brand">Interactive Stories</a>
+        <div class="d-flex">
+          <a href="/" class="brand">
+            <img
+              src="/static/assets/img/logo.png"
+              alt="Interactive Stories Logo"
+              class="nav-logo"
+            />
+            PPT Interactive Stories
+          </a>
         </div>
         <div>
-          <p class="nav-tagline">Explore therapeutic stories with branching narratives</p>
+          <p class="nav-tagline">
+            Explore therapeutic stories with branching narratives
+          </p>
         </div>
       </div>
     </nav>
 
     <main>
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <div class="content-wrapper">
-            <ul class="flashes">
-              {% for message in messages %}
-                <li>{{ message }}</li>
-              {% endfor %}
-            </ul>
-          </div>
-        {% endif %}
-      {% endwith %}
-
-      {% block content %}{% endblock %}
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="content-wrapper">
+        <ul class="flashes">
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %} {% endwith %} {% block content %}{% endblock %}
     </main>
+
+    <footer class="main-footer">
+      <div
+        class="footer-container d-flex justify-content-center align-items-center"
+      >
+        <div class="footer-brand">
+          <img
+            width="100px"
+            src="/static/assets/img/logo.png"
+            alt="Interactive Stories Logo"
+            class="footer-logo"
+          />
+        </div>
+        <div class="footer-content">
+          <p>
+            &copy; 2025 Emmanuel Segun-Lean & Celine Latulipe. All rights
+            reserved.
+          </p>
+          <p>Interactive Stories</p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

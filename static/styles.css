@@ -60,6 +60,10 @@ body {
 	margin: 0;
 }
 
+.nav-logo {
+	height: 50px;
+}
+
 /* Hero Section */
 .hero {
 	background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
