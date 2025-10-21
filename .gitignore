@@ -11,3 +11,7 @@ wheels/
 /uploads
 
 !pdfjs-5.4.54-dist/build/
+
+.claude
+
+instance
