@@ -16,14 +16,14 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.PORT || 22 }}
           script: |
             cd /srv/interactivestories || exit 1
             git reset --hard
             git pull origin main
-            source venv/bin/activate
-            pip install -r pyproject.toml
+            source .venv/bin/activate.csh
+            uv pip install -r pyproject.toml
             sudo systemctl restart interactivestories
