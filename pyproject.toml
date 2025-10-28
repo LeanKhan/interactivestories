@@ -5,6 +5,7 @@ description = "Play PPT Interactive Stories"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "azure-storage-blob>=12.24.0",
     "flask>=3.1.1",
     "flask-admin>=1.6.1",
     "flask-sqlalchemy>=3.1.1",

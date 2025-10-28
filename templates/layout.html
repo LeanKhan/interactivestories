@@ -34,7 +34,7 @@
         </div>
         <div>
           <p class="nav-tagline">
-            Explore therapeutic stories with branching narratives
+            Reframe: Turn negative to positive
           </p>
         </div>
       </div>
@@ -52,9 +52,9 @@
       {% endif %} {% endwith %} {% block content %}{% endblock %}
     </main>
 
-    <footer class="main-footer">
+    <footer class="main-footer bg-white">
       <div
-        class="footer-container d-flex justify-content-center align-items-center"
+        class="footer-container d-flex justify-content-evenly align-items-center"
       >
         <div class="footer-brand">
           <img
@@ -64,12 +64,29 @@
             class="footer-logo"
           />
         </div>
-        <div class="footer-content">
+        <div
+          class="align-items-baseline d-flex footer-content justify-content-center"
+        >
           <p>
-            &copy; 2025 <a href="https://e.segunlean.com/" target="_blank">Emmanuel Segun-Lean</a> & <a href="https://celinelatulipe.net/">Celine Latulipe</a>. All rights
-            reserved.
+            &copy; 2025
+            <a href="https://e.segunlean.com/" target="_blank"
+              >Emmanuel Segun-Lean</a
+            >
+            & <a href="https://celinelatulipe.net/">Celine Latulipe</a>. All
+            rights reserved.
+
+            <span>Interactive Stories</span>
           </p>
-          <p>Interactive Stories</p>
+        </div>
+
+        <div class="footer-hci-logo mt-3">
+          <a href="https://hci.cs.umanitoba.ca" target="_blank">
+            <img
+            src="/static/assets/img/HCI_Lab_Logo_300dpi.png"
+            alt="HCI Lab Logo"
+            width="100"
+          />
+          </a>
         </div>
       </div>
     </footer>
