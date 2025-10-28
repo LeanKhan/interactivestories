@@ -80,6 +80,9 @@
   <!-- PDF Viewer Section -->
   <main class="pdf-viewer-section" id="pdfViewerSection">
     <div class="viewer-controls">
+      <button class="viewer-control-btn" id="goToPage1Btn" aria-label="Go to page 1" title="Go to page 1">
+        <span>⟲</span>
+      </button>
       <button class="viewer-control-btn" id="fullscreenBtn" aria-label="Toggle fullscreen" title="Fullscreen">
         <span id="fullscreenIcon">⛶</span>
       </button>
@@ -128,6 +131,14 @@
 
       // Save state to localStorage
       localStorage.setItem('sidebarCollapsed', collapsed);
+    });
+
+    // Go to Page 1 functionality
+    const goToPage1Btn = document.getElementById('goToPage1Btn');
+    goToPage1Btn.addEventListener('click', function() {
+      if (window.pdfSinglePageViewer) {
+        window.pdfSinglePageViewer.currentPageNumber = 1;
+      }
     });
 
     // Fullscreen functionality

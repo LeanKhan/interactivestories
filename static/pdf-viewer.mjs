@@ -70,6 +70,9 @@ const pdfSinglePageViewer = new pdfjsViewer.PDFSinglePageViewer({
 pdfLinkService.setViewer(pdfSinglePageViewer);
 pdfScriptingManager.setViewer(pdfSinglePageViewer);
 
+// Make pdfSinglePageViewer globally accessible for controls
+window.pdfSinglePageViewer = pdfSinglePageViewer;
+
 // Helper function to detect mobile devices and portrait orientation
 function isMobileDevice() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
