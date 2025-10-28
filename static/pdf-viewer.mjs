@@ -70,14 +70,55 @@ const pdfSinglePageViewer = new pdfjsViewer.PDFSinglePageViewer({
 pdfLinkService.setViewer(pdfSinglePageViewer);
 pdfScriptingManager.setViewer(pdfSinglePageViewer);
 
+// Helper function to detect mobile devices and portrait orientation
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    || window.innerWidth <= 768;
+}
+
+function isPortraitMode() {
+  return window.innerHeight > window.innerWidth;
+}
+
+function getOptimalScale() {
+  const isMobile = isMobileDevice();
+  const isPortrait = isPortraitMode();
+
+  if (isMobile && isPortrait) {
+    // For mobile portrait, use page-width to fit PDF width to screen
+    return "page-width";
+  } else if (isMobile && !isPortrait) {
+    // For mobile landscape, use page-fit to fit entire page
+    return "page-fit";
+  } else {
+    // For desktop, use fixed scale
+    return "0.7";
+  }
+}
+
 eventBus.on("pagesinit", function () {
-  // We can use pdfSinglePageViewer now, e.g. let's change default scale.
-  pdfSinglePageViewer.currentScaleValue = "0.7";
+  // Set scale based on device and orientation
+  pdfSinglePageViewer.currentScaleValue = getOptimalScale();
 
   // We can try searching for things.
   if (SEARCH_FOR) {
     eventBus.dispatch("find", { type: "", query: SEARCH_FOR });
   }
+});
+
+// Listen for orientation changes and window resizes to adjust scale
+window.addEventListener("orientationchange", function() {
+  setTimeout(function() {
+    pdfSinglePageViewer.currentScaleValue = getOptimalScale();
+  }, 100);
+});
+
+window.addEventListener("resize", function() {
+  // Debounce resize events
+  clearTimeout(window.resizeTimeout);
+  window.resizeTimeout = setTimeout(function() {
+    pdfSinglePageViewer.currentScaleValue = getOptimalScale();
+  }, 250);
 });
 
 // Loading document.
