@@ -7,8 +7,11 @@
 {% endblock %} {% block content %}
 <div class="story-view-wrapper">
   <!-- Sidebar with Story Details -->
-  <aside class="story-sidebar">
+  <aside class="story-sidebar" id="storySidebar">
     <div class="sidebar-header">
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        <span id="toggleIcon">‹</span>
+      </button>
       <a class="button btn btn-back" href="/">← Back</a>
     </div>
 
@@ -75,7 +78,12 @@
   </aside>
 
   <!-- PDF Viewer Section -->
-  <main class="pdf-viewer-section">
+  <main class="pdf-viewer-section" id="pdfViewerSection">
+    <div class="viewer-controls">
+      <button class="viewer-control-btn" id="fullscreenBtn" aria-label="Toggle fullscreen" title="Fullscreen">
+        <span id="fullscreenIcon">⛶</span>
+      </button>
+    </div>
     <div id="viewerContainer">
       <div id="viewer" class="pdfViewer"></div>
     </div>
@@ -96,5 +104,85 @@
 </script>
 
 <script src="/static/pdf-viewer.mjs" type="module"></script>
+
+<script>
+  // Sidebar toggle functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('storySidebar');
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    // Load saved state from localStorage
+    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (isCollapsed) {
+      sidebar.classList.add('collapsed');
+      toggleIcon.textContent = '›';
+    }
+
+    toggleBtn.addEventListener('click', function() {
+      sidebar.classList.toggle('collapsed');
+      const collapsed = sidebar.classList.contains('collapsed');
+
+      // Update icon
+      toggleIcon.textContent = collapsed ? '›' : '‹';
+
+      // Save state to localStorage
+      localStorage.setItem('sidebarCollapsed', collapsed);
+    });
+
+    // Fullscreen functionality
+    const pdfViewerSection = document.getElementById('pdfViewerSection');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const fullscreenIcon = document.getElementById('fullscreenIcon');
+
+    fullscreenBtn.addEventListener('click', function() {
+      if (!document.fullscreenElement &&
+          !document.webkitFullscreenElement &&
+          !document.mozFullScreenElement &&
+          !document.msFullscreenElement) {
+        // Enter fullscreen
+        if (pdfViewerSection.requestFullscreen) {
+          pdfViewerSection.requestFullscreen();
+        } else if (pdfViewerSection.webkitRequestFullscreen) {
+          pdfViewerSection.webkitRequestFullscreen();
+        } else if (pdfViewerSection.mozRequestFullScreen) {
+          pdfViewerSection.mozRequestFullScreen();
+        } else if (pdfViewerSection.msRequestFullscreen) {
+          pdfViewerSection.msRequestFullscreen();
+        }
+      } else {
+        // Exit fullscreen
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+    });
+
+    // Update fullscreen icon when fullscreen state changes
+    function updateFullscreenIcon() {
+      if (document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.mozFullScreenElement ||
+          document.msFullscreenElement) {
+        fullscreenIcon.textContent = '⛶';
+        fullscreenBtn.setAttribute('title', 'Exit fullscreen');
+      } else {
+        fullscreenIcon.textContent = '⛶';
+        fullscreenBtn.setAttribute('title', 'Fullscreen');
+      }
+    }
+
+    document.addEventListener('fullscreenchange', updateFullscreenIcon);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
+    document.addEventListener('mozfullscreenchange', updateFullscreenIcon);
+    document.addEventListener('MSFullscreenChange', updateFullscreenIcon);
+  });
+</script>
 
 {% endblock %}
