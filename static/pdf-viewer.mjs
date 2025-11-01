@@ -125,7 +125,6 @@ window.addEventListener("resize", function() {
 });
 
 // Loading document.
-  console.log('Default URL ', DEFAULT_URL)
 const loadingTask = pdfjsLib.getDocument({
   url: DEFAULT_URL,
   cMapUrl: CMAP_URL,
@@ -139,3 +138,73 @@ const pdfDocument = await loadingTask.promise;
 pdfSinglePageViewer.setDocument(pdfDocument);
 
 pdfLinkService.setDocument(pdfDocument, null);
+
+// Animation for linkAnnotation on first page
+let animationTimeout = null;
+let animationInterval = null;
+let linkAnnotationClicked = false;
+
+function startLinkAnnotationAnimation() {
+  // Wait for the page to be rendered
+  setTimeout(() => {
+    const linkAnnotation = document.querySelector('.page[data-page-number="1"] .linkAnnotation > a');
+console.log('Link Annotation => ', linkAnnotation);
+    if (!linkAnnotation) {
+      return;
+    }
+
+    // Add click listener to stop animation
+    linkAnnotation.addEventListener('click', () => {
+      linkAnnotationClicked = true;
+      if (animationTimeout) {
+        clearTimeout(animationTimeout);
+      }
+      if (animationInterval) {
+        clearInterval(animationInterval);
+      }
+      linkAnnotation.style.animation = 'none';
+    }, { once: true });
+
+    // Start animation after 30 seconds if not clicked
+    animationTimeout = setTimeout(() => {
+      if (!linkAnnotationClicked) {
+        console.log('Not clicked! Applying animation')
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes pulseScale {
+            0%, 100% {
+              transform: scale(1);
+              scale: 200% 1;
+            }
+            50% {
+              transform: scale(1.1);
+              scale: 100% 1;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+
+        linkAnnotation.style.animation = 'pulseScale 1s ease-in-out infinite';
+      }
+    }, 10000); // 30 seconds
+  }, 500);
+}
+
+// Start animation when pages are initialized
+eventBus.on('pagerendered', async function(evt) {
+
+  console.log('Evet => ', evt)
+//   const annotations = await page.getAnnotations();
+
+// for (const a of annotations) {
+//   if (a.subtype === 'Link' && a.url) {
+//     console.log('Link found:', a);
+//   }
+// }
+
+  console.log('Page Rendered!')
+  if (evt.pageNumber === 1 && !animationTimeout) {
+    startLinkAnnotationAnimation();
+  }
+});
