@@ -1,7 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
+from models import db
 from datetime import datetime
-
-db = SQLAlchemy()
 
 file_tags = db.Table(
     'file_tags',

@@ -5,16 +5,19 @@ Author: Emmanuel Segun-Lean
 """
 
 import os
-from flask import Flask, render_template, flash, request, redirect, send_from_directory, url_for
-from werkzeug.utils import secure_filename
-from flask_admin import Admin, expose, BaseView
-from flask_admin.contrib.sqla import ModelView
-from models.story import Tag, db, Story
-from services.azure_storage import AzureBlobStorage
-from dotenv import load_dotenv
 
-from flask_admin import Admin
+from dotenv import load_dotenv
+from flask import Flask, redirect, render_template, send_from_directory, request, flash, url_for
+
+from flask_admin import Admin, AdminIndexView
+from flask_admin.contrib.sqla import ModelView
+from flask_login import (LoginManager, UserMixin, current_user, login_user,
+                         logout_user)
+from werkzeug.utils import secure_filename
 from wtforms import FileField
+
+from models import db
+from services.azure_storage import AzureBlobStorage
 
 # Load environment variables
 load_dotenv()
@@ -25,6 +28,16 @@ ALLOWED_EXTENSIONS = {'pptx', 'ppt'}
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///stories.db"
 app.config["SECRET_KEY"] = "supersecretkeyomg"
+
+# Initialize db with app
+db.init_app(app)
+
+# Import models after db is initialized
+from models.user import User
+from models.story import Story, Tag
+
+login_manager = LoginManager(app)
+login_manager.login_view = 'login' # type: ignore
 
 # Azure Blob Storage Configuration
 app.config["AZURE_STORAGE_CONNECTION_STRING"] = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
@@ -55,8 +68,6 @@ if not azure_storage:
 
 # set optional bootswatch theme
 app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
-
-db.init_app(app)
 
 class StoryModelView(ModelView):
     # column_list = ("id", "filename", "title", "tags", "uploaded_at")
@@ -110,9 +121,27 @@ class StoryModelView(ModelView):
                 model.thumbnail_filename = thumb_filename
                 model.thumbnail_path = thumb_path
 
-admin = Admin(app, name="Local CMS", template_mode="bootstrap3")
+
+
+# Auth Routes
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class MyAdminIndexView(AdminIndexView):
+    def is_accessible(self):
+        return current_user.is_authenticated
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
+class SecureModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+admin = Admin(app, name="Local CMS", template_mode="bootstrap3", index_view=MyAdminIndexView())
 admin.add_view(StoryModelView(Story, db.session))
 admin.add_view(ModelView(Tag, db.session))
+admin.add_view(SecureModelView(User, db.session))
+
 
 @app.route('/')
 def index(name=None):
@@ -163,6 +192,24 @@ def download_processed_file(name):
 def download_page(name):
     return render_template('download.html', filename=name)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user and user.check_password(password):
+            login_user(user)
+            return redirect(url_for('admin.index'))
+        else:
+            flash('Invalid username or password')
+    
+    return render_template('login.html')
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
 
 if __name__ == "__main__":
     # Quick test configuration. Please use proper Flask configuration options
@@ -173,6 +220,11 @@ if __name__ == "__main__":
     
     with app.app_context():
         db.create_all()
+        # admin_user = User(username='admin')
+        # admin_user.set_password('yourpassword')
+        # db.session.add(admin_user)
+        # db.session.commit()
+
 
     app.debug = True
     app.run(host='0.0.0.0')
