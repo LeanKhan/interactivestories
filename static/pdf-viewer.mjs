@@ -90,12 +90,9 @@ function getOptimalScale() {
   if (isMobile && isPortrait) {
     // For mobile portrait, use page-width to fit PDF width to screen
     return "page-width";
-  } else if (isMobile && !isPortrait) {
-    // For mobile landscape, use page-fit to fit entire page
-    return "page-fit";
   } else {
-    // For desktop, use fixed scale
-    return "0.7";
+    // For mobile landscape and desktop, use page-fit to ensure PDF fits within screen
+    return "page-fit";
   }
 }
 
