@@ -7,7 +7,7 @@ bind = "unix:/srv/interactivestories/interactivestories.sock"
 workers = multiprocessing.cpu_count() * 2 + 1
 worker_class = "sync"
 worker_connections = 1000
-timeout = 120  # Increase if you have long-running requests
+timeout = 600
 keepalive = 5
 
 # Restart workers after handling this many requests (prevents memory leaks)
@@ -15,15 +15,13 @@ max_requests = 1000
 max_requests_jitter = 50
 
 # Logging
-loglevel = "info"
+loglevel = "warning"
 accesslog = "/srv/interactivestories/logs/gunicorn_access.log"
 errorlog = "/srv/interactivestories/logs/gunicorn_error.log"
 capture_output = True
 
-# Preload app for better memory efficiency
 preload_app = True
 
-# Worker lifecycle hooks
 def on_starting(server):
     server.log.info("Gunicorn starting")
 
