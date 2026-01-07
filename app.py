@@ -192,15 +192,13 @@ def index():
     return render_template('index.html', stories=stories)
 
 
-@app.route('/stories/<id>')
-def view_story(_id):
-    _story = Story.query.filter(Story.id == _id).first_or_404()
+@app.route('/stories/<int:story_id>')
+def view_story(story_id):
+    _story = Story.query.get_or_404(story_id)
 
     if azure_storage:
-        # Use Azure Blob Storage URL
         _story.pdf_url = azure_storage.get_blob_url(_story.path)
     else:
-        # Use local storage URL
         _story.pdf_url = f"/{app.config['UPLOAD_FOLDER_RELATIVE']}/{app.config['FILE_UPLOAD_FOLDER_RELATIVE']}/{_story.filename}"
 
     return render_template('view_story.html', story=_story)
