@@ -267,10 +267,6 @@ if __name__ == "__main__":
 
     with app.app_context():
         db.create_all()
-        # admin_user = User(username='admin')
-        # admin_user.set_password('yourpassword')
-        # db.session.add(admin_user)
-        # db.session.commit()
 
     app.debug = False
     app.run(host='0.0.0.0')
