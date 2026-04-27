@@ -4,6 +4,9 @@ Play PPT-PDF Interactive Stories
 Author: Emmanuel Segun-Lean
 """
 
+from scripts.cli import register_cli
+from flask_migrate import Migrate
+
 from models.story import Story, Tag
 from models.user import User
 import os
@@ -34,8 +37,14 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///stories.db"
 app.config["SECRET_KEY"] = "supersecretkeyomg"
 
+app.debug = False
+
 # Initialize db with app
 db.init_app(app)
+migrate = Migrate()
+migrate.init_app(app, db)
+
+register_cli(app)
 
 # Import models after db is initialized
 
