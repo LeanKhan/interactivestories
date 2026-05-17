@@ -1,0 +1,247 @@
+{% extends "layout.html" %} 
+
+{% block head %}
+<title>Resources</title>
+{% endblock %}
+
+{% block content %}
+<div class="resources-page">
+
+<!-- HERO -->
+<section class="hero container">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h1 class="fw-bold">Resources</h1>
+      <p class="text-muted">
+        Tools, templates, and guides developed through our research to support interactive storytelling.
+      </p>
+      <a href="#resources" class="btn btn-dark">View Resources <i class="bi bi-arrow-down ms-2" aria-hidden="true"></i></a>
+    </div>
+    <div class="col-md-6">
+      <img
+        src="/static/assets/img/older-adult-working-on-notes.png"
+        class="img-fluid rounded"
+        alt="Older adult working on notes"
+      />
+    </div>
+  </div>
+</section>
+
+<!-- PRINTABLE PDFs -->
+<section id="resources" class="section container resource-section resource-section-pdf">
+  <div class="resource-section-heading">
+    <span class="resource-section-icon" aria-hidden="true">
+      <i class="bi bi-file-earmark-text"></i>
+    </span>
+    <div>
+      <h4 class="section-title">Printable PDFs</h4>
+      <p class="section-kicker">Handouts and worksheets for planning, creating, and reflecting.</p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Card -->
+    <div class="col-md-6">
+      <div class="card p-3">
+        <img src="https://via.placeholder.com/500x300" class="mb-3"/>
+        <span class="tag">PDF</span>
+        <h5>Storyboard Worksheet</h5>
+        <p class="text-muted">Plan and map branching story paths with this worksheet.</p>
+        <div class="resource-meta">PDF · 2 pages · 312 KB</div>
+        <a class="btn btn-outline-dark mt-2"><i class="bi bi-download me-2" aria-hidden="true"></i>Download PDF</a>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card p-3">
+        <img src="https://via.placeholder.com/500x300" class="mb-3"/>
+        <span class="tag">PDF</span>
+        <h5>Reflection Worksheet</h5>
+        <p class="text-muted">Guide participants to reflect on storytelling experiences.</p>
+        <div class="resource-meta">PDF · 2 pages · 278 KB</div>
+        <a class="btn btn-outline-dark mt-2"><i class="bi bi-download me-2" aria-hidden="true"></i>Download PDF</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEMPLATE -->
+<section class="section container resource-section resource-section-template">
+  <div class="resource-section-heading">
+    <span class="resource-section-icon" aria-hidden="true">
+      <i class="bi bi-puzzle"></i>
+    </span>
+    <div>
+      <h4 class="section-title">PowerPoint Template</h4>
+      <p class="section-kicker">A customizable template for creating your own interactive stories.</p>
+    </div>
+  </div>
+
+  <div class="card p-4 featured-card">
+    <img src="https://via.placeholder.com/400x220"/>
+    <div>
+      <span class="tag">PPTX</span>
+      <h5>Interactive Story Template</h5>
+      <p class="text-muted">
+        Pre-built slide layouts with navigation buttons and branching structure.
+      </p>
+      <div class="resource-meta">PPTX · 1.6 MB</div>
+      <a class="btn btn-dark mt-2"><i class="bi bi-download me-2" aria-hidden="true"></i>Download PPTX</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRESENTATIONS -->
+<section class="section container resource-section resource-section-presentations">
+  <div class="resource-section-heading">
+    <span class="resource-section-icon" aria-hidden="true">
+      <i class="bi bi-easel"></i>
+    </span>
+    <div>
+      <h4 class="section-title">PowerPoint Presentations</h4>
+      <p class="section-kicker">Example presentations used in our workshops and study.</p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card p-3">
+        <img src="https://via.placeholder.com/500x300" class="mb-3"/>
+        <span class="tag">PPTX</span>
+        <h5>Introduction to Interactive Stories</h5>
+        <p class="text-muted">Overview of storytelling and applications.</p>
+        <div class="resource-meta">PPTX · 3.2 MB</div>
+        <a class="btn btn-outline-dark mt-2"><i class="bi bi-download me-2" aria-hidden="true"></i>Download PPTX</a>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card p-3">
+        <img src="https://via.placeholder.com/500x300" class="mb-3"/>
+        <span class="tag">PPTX</span>
+        <h5>Designing Branching Stories</h5>
+        <p class="text-muted">Learn how to structure meaningful story paths.</p>
+        <div class="resource-meta">PPTX · 2.7 MB</div>
+        <a class="btn btn-outline-dark mt-2"><i class="bi bi-download me-2" aria-hidden="true"></i>Download PPTX</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="section container resource-section resource-section-video">
+  <div class="resource-section-heading">
+    <span class="resource-section-icon" aria-hidden="true">
+      <i class="bi bi-play-circle"></i>
+    </span>
+    <div>
+      <h4 class="section-title">Video Tutorial</h4>
+      <p class="section-kicker">Step-by-step walkthrough to help you get started.</p>
+    </div>
+  </div>
+
+  <div class="card p-4 featured-card">
+    <div class="video-thumbnail">
+      <img src="https://via.placeholder.com/400x220"/>
+      <div class="play-btn">▶</div>
+    </div>
+
+    <div>
+      <span class="tag">VIDEO</span>
+      <h5>How to Create Interactive Stories in PowerPoint</h5>
+      <p class="text-muted">Step-by-step walkthrough using triggers and navigation.</p>
+      <div class="resource-meta">MP4 · 18 min</div>
+      <a class="btn btn-dark mt-2"><i class="bi bi-play-circle me-2" aria-hidden="true"></i>Watch Video</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO USE -->
+<section class="section bg-light">
+  <div class="container">
+    <h4 class="section-title">How to Use These Resources</h4>
+
+    <div class="row text-center">
+      <div class="col-md-3 how-step">
+        <div class="circle">
+          <i class="bi bi-download" aria-hidden="true"></i>
+        </div>
+        <div class="step-number">1</div>
+        <p>Download</p>
+      </div>
+      <div class="col-md-3 how-step">
+        <div class="circle">
+          <i class="bi bi-people" aria-hidden="true"></i>
+        </div>
+        <div class="step-number">2</div>
+        <p>Run Workshop</p>
+      </div>
+      <div class="col-md-3 how-step">
+        <div class="circle">
+          <i class="bi bi-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="step-number">3</div>
+        <p>Create Stories</p>
+      </div>
+      <div class="col-md-3 how-step">
+        <div class="circle">
+          <i class="bi bi-chat" aria-hidden="true"></i>
+        </div>
+        <div class="step-number">4</div>
+        <p>Reflect & Share</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER LINKS -->
+<section class="section container">
+  <h4 class="section-title">Other Links</h4>
+
+  <div class="other-links">
+    <a href="#">
+      <span class="other-link-icon link-blue" aria-hidden="true">
+        <i class="bi bi-link-45deg"></i>
+      </span>
+      Learn how to create interactive stories
+    </a>
+    <a href="#">
+      <span class="other-link-icon link-sky" aria-hidden="true">
+        <i class="bi bi-book"></i>
+      </span>
+      View interactive stories
+    </a>
+    <a href="#">
+      <span class="other-link-icon link-sage" aria-hidden="true">
+        <i class="bi bi-file-earmark-text"></i>
+      </span>
+      Read the research paper
+    </a>
+    <a href="#">
+      <span class="other-link-icon link-orange" aria-hidden="true">
+        <i class="bi bi-clipboard-check"></i>
+      </span>
+      Workshop overview
+    </a>
+  </div>
+</section>
+
+<!-- CITATION -->
+<section class="section bg-light">
+  <div class="container">
+    <h5>Cite This Work</h5>
+    <p class="text-muted">
+      Your Name (Year). Interactive Stories: Resources for Creating and Studying Interactive Stories.
+    </p>
+    <button class="btn btn-outline-dark">Copy Citation</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="container text-center">
+  © 2024 Interactive Stories Research Project
+</footer>
+
+</div>
+
+{% endblock %}
