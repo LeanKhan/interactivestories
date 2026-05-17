@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -15,27 +15,83 @@
       href="/static/assets/img/favicon.ico"
     />
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
     <link rel="stylesheet" href="/static/styles.css" />
     {% block head %} {% endblock %}
   </head>
 
   <body id="top">
-    <nav class="main-nav">
-      <div class="nav-container">
-        <div class="d-flex">
-          <a href="/" class="brand">
+    <nav class="navbar navbar-expand-lg bg-white border-bottom py-3 site-navbar">
+      <div class="container">
+        <a
+          class="navbar-brand d-flex align-items-center fw-semibold"
+          href="{{ url_for('index') }}"
+        >
             <img
               src="/static/assets/img/logo.png"
               alt="Interactive Stories Logo"
-              class="nav-logo"
+              width="28"
+              height="28"
+              class="me-2"
             />
             Interactive Stories
-          </a>
-        </div>
-        <div>
-          <p class="nav-tagline">
-            Reframe: Turn negative to positive
-          </p>
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#siteNavbar"
+          aria-controls="siteNavbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="siteNavbar">
+          <ul class="navbar-nav align-items-lg-center gap-lg-3">
+            <li class="nav-item">
+              <a
+                class="nav-link{% if request.endpoint == 'index' %} active active-link{% endif %}"
+                href="{{ url_for('index') }}"
+                {% if request.endpoint == 'index' %}aria-current="page"{% endif %}
+              >
+                Home
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a
+                class="nav-link{% if request.endpoint == 'view_story' %} active active-link{% endif %}"
+                href="{{ url_for('index') }}#stories"
+                {% if request.endpoint == 'view_story' %}aria-current="page"{% endif %}
+              >
+                Stories
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a
+                class="nav-link{% if request.endpoint == 'resources_page' %} active active-link{% endif %}"
+                href="{{ url_for('resources_page') }}"
+                {% if request.endpoint == 'resources_page' %}aria-current="page"{% endif %}
+              >
+                Resources
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}#about">About</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#site-footer">Contact</a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -52,7 +108,7 @@
       {% endif %} {% endwith %} {% block content %}{% endblock %}
     </main>
 
-    <footer class="main-footer bg-white">
+    <footer class="main-footer bg-white" id="site-footer">
       <div
         class="footer-container d-flex justify-content-evenly align-items-center"
       >
@@ -82,13 +138,52 @@
         <div class="footer-hci-logo mt-3">
           <a href="https://hci.cs.umanitoba.ca" target="_blank">
             <img
-            src="/static/assets/img/HCI_Lab_Logo_300dpi.png"
-            alt="HCI Lab Logo"
-            width="120"
-          />
+              src="/static/assets/img/HCI_Lab_Logo_300dpi.png"
+              alt="HCI Lab Logo"
+              width="120"
+            />
           </a>
         </div>
       </div>
     </footer>
+    <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+      (() => {
+        const navLinks = document.querySelectorAll(".site-navbar .nav-link");
+
+        const setActiveLink = () => {
+          const currentPath = window.location.pathname;
+          const currentHash = window.location.hash;
+          let activeLink = null;
+
+          navLinks.forEach((link) => {
+            const linkUrl = new URL(link.href, window.location.origin);
+            const samePath = linkUrl.pathname === currentPath;
+            const sameHash = linkUrl.hash === currentHash;
+
+            if (samePath && sameHash) {
+              activeLink = link;
+            } else if (!currentHash && samePath && !linkUrl.hash) {
+              activeLink = link;
+            } else if (currentPath.startsWith("/stories/") && linkUrl.hash === "#stories") {
+              activeLink = link;
+            }
+          });
+
+          if (!activeLink) return;
+
+          navLinks.forEach((link) => {
+            link.classList.remove("active", "active-link");
+            link.removeAttribute("aria-current");
+          });
+
+          activeLink.classList.add("active", "active-link");
+          activeLink.setAttribute("aria-current", "page");
+        };
+
+        setActiveLink();
+        window.addEventListener("hashchange", setActiveLink);
+      })();
+    </script>
   </body>
 </html>
