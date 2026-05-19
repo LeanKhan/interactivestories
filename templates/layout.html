@@ -85,11 +85,19 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}#about">About</a>
+              <a
+                class="nav-link{% if request.endpoint == 'about_page' %} active active-link{% endif %}"
+                href="{{ url_for('about_page') }}"
+                {% if request.endpoint == 'about_page' %}aria-current="page"{% endif %}
+              >
+                About
+              </a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#site-footer">Contact</a>
+              <a class="nav-link" href="{{ url_for('about_page') }}#contact">
+                Contact
+              </a>
             </li>
           </ul>
         </div>
@@ -124,7 +132,7 @@
           class="align-items-baseline d-flex footer-content justify-content-center"
         >
           <p>
-            &copy; 2025
+            &copy; 2026
             <a href="https://e.segunlean.com/" target="_blank"
               >Emmanuel Segun-Lean</a
             >

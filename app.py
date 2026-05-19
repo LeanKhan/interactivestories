@@ -37,7 +37,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///stories.db"
 app.config["SECRET_KEY"] = "supersecretkeyomg"
 
-app.debug = False
+app.debug = True
 
 # Initialize db with app
 db.init_app(app)
@@ -253,9 +253,19 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/resources')
+def resources_page():
+    return render_template('resources.html')
+
+@app.route('/about')
+def about_page():
+    return render_template('about.html')
+
+@app.route('/about-v2')
+def about_v2_page():
+    return render_template('about_v2.html')
+
 # Catch all unhandled exceptions
-
-
 @app.errorhandler(Exception)
 def handle_exception(e):
     """error handling"""
@@ -277,5 +287,5 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
 
-    app.debug = False
+    app.debug = True
     app.run(host='0.0.0.0')
