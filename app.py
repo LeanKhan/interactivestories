@@ -253,9 +253,19 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/resources')
+def resources_page():
+    return render_template('resources.html')
+
+@app.route('/about')
+def about_page():
+    return render_template('about.html')
+
+@app.route('/about-v2')
+def about_v2_page():
+    return render_template('about_v2.html')
+
 # Catch all unhandled exceptions
-
-
 @app.errorhandler(Exception)
 def handle_exception(e):
     """error handling"""
