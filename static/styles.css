@@ -663,6 +663,29 @@ body {
 	display: none;
 }
 
+.resources-page .coming-soon-overlay {
+	align-items: center;
+	background: rgba(17, 17, 17, 0.72);
+	color: #fff;
+	display: flex;
+	inset: 0;
+	justify-content: center;
+	position: absolute;
+	text-align: center;
+	z-index: 2;
+}
+
+.resources-page .coming-soon-overlay span {
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.34);
+	border-radius: 999px;
+	font-size: 0.95rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	padding: 10px 18px;
+	text-transform: uppercase;
+}
+
 .resources-page .play-btn {
 	position: absolute;
 	top: 50%;
