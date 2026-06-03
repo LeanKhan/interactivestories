@@ -13,6 +13,7 @@ dependencies = [
     "flask-sqlalchemy>=3.1.1",
     "gunicorn>=23.0.0",
     "jinja-layout>=0.4.0",
+    "psycopg[binary]>=3.3.4",
     "pysondb>=1.6.7",
     "python-dotenv>=1.1.1",
     "python-pptx>=1.0.2",
