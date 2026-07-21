@@ -57,6 +57,8 @@ app.config["AZURE_STORAGE_CONNECTION_STRING"] = os.getenv(
 app.config["AZURE_CONTAINER_NAME"] = os.getenv(
     "AZURE_CONTAINER_NAME", "pdf-stories")
 
+app.config["DEBUG_LOG_PATH"] = os.getenv("DEBUG_LOG_PATH", "/logs.log")
+
 # Blob folder names
 app.config["FILE_UPLOAD_FOLDER_RELATIVE"] = "pdfs"
 app.config["THUMBNAIL_UPLOAD_FOLDER_RELATIVE"] = "thumbnails"
@@ -169,9 +171,9 @@ admin.add_view(StoryModelView(Story, db.session))
 admin.add_view(ModelView(Tag, db.session))
 admin.add_view(SecureModelView(User, db.session))
 
-# Set up logging
+# Set up logging. CHANGE THE PATH T
 if not app.debug:
-    file_handler = RotatingFileHandler('/srv/interactivestories/logs/flask.log',
+    file_handler = RotatingFileHandler(app.config["DEBUG_LOG_PATH"],
                                        maxBytes=10240000,
                                        backupCount=10)
     file_handler.setFormatter(logging.Formatter(

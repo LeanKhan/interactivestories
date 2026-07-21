@@ -18,3 +18,9 @@ instance
 
 # Environment variables
 .env
+
+# DB
+*.db
+/instance
+
+.claude
