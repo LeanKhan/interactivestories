@@ -1,6 +1,6 @@
 ## Interactive Stories Website
 
-This website makes two contributions to the litany of sofware out there: a basic interactive stories viewer and a website that wraps that viewer. The viewer is simply a modified PDF viewer. 
+This website makes two contributions to the litany of interactive stories software: a basic interactive stories viewer and a website that wraps that viewer. The viewer is simply a modified PDF viewer. The stories tested so far have been created on MS PowerPoint. Visit https://interactivestories.cs.umanitoba.ca/about to learn more about the purpose of this project.
 
 The viewer is at ``static/pdf-viewer.mjs``. That file is what modifies Mozilla's PDF viewing library to prevent keyboard navigation, keeping your interactive stories _interactive_.
 
