@@ -37,3 +37,18 @@ def register_cli(app):
         db.session.commit()
 
         click.echo(f"✅ User '{username}' created successfully.")
+
+    @app.cli.command("backup-db")
+    def backup_db_command():
+        """Upload a backup of the SQLite database to Azure now."""
+
+        db_backup = current_app.extensions.get("db_backup")
+        if not db_backup:
+            click.echo("❌ Azure storage is not configured.")
+            return
+
+        blob_name = db_backup.backup()
+        if blob_name:
+            click.echo(f"✅ Backed up to '{blob_name}'.")
+        else:
+            click.echo("⚠️ No database file to back up.")
