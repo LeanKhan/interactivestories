@@ -58,9 +58,9 @@ login_manager.login_view = 'login'  # type: ignore
 app.config["AZURE_STORAGE_CONNECTION_STRING"] = os.getenv(
     "AZURE_STORAGE_CONNECTION_STRING")
 app.config["AZURE_CONTAINER_NAME"] = os.getenv(
-    "AZURE_CONTAINER_NAME", "pdf-stories")
+    "AZURE_CONTAINER_NAME") or "pdf-stories"
 
-app.config["DEBUG_LOG_PATH"] = os.getenv("DEBUG_LOG_PATH", "/logs.log")
+app.config["DEBUG_LOG_PATH"] = os.getenv("DEBUG_LOG_PATH") or "/logs.log"
 
 # Blob folder names
 app.config["FILE_UPLOAD_FOLDER_RELATIVE"] = "pdfs"
@@ -75,9 +75,10 @@ if app.config["AZURE_STORAGE_CONNECTION_STRING"]:
     )
 
 # SQLite backups go to a separate private container (they include password hashes)
+# `or` so empty values in .env (as copied from .env.example) fall back to the defaults
 app.config["AZURE_BACKUP_CONTAINER_NAME"] = os.getenv(
-    "AZURE_BACKUP_CONTAINER_NAME", "pdf-stories-backups")
-app.config["DB_BACKUP_KEEP"] = int(os.getenv("DB_BACKUP_KEEP", "10"))
+    "AZURE_BACKUP_CONTAINER_NAME") or "pdf-stories-backups"
+app.config["DB_BACKUP_KEEP"] = int(os.getenv("DB_BACKUP_KEEP") or "10")
 
 db_backup = None
 if azure_storage:
