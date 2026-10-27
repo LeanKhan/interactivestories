@@ -26,6 +26,7 @@ from logging.handlers import RotatingFileHandler
 
 from models import db
 from services.azure_storage import AzureBlobStorage
+from services.db_backup import DatabaseBackup
 
 # Load environment variables
 load_dotenv()
@@ -34,7 +35,9 @@ load_dotenv()
 ALLOWED_EXTENSIONS = {'pptx', 'ppt'}
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///stories.db"
+os.makedirs(app.instance_path, exist_ok=True)
+app.config["DB_PATH"] = os.path.join(app.instance_path, "stories.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{app.config['DB_PATH']}"
 app.config["SECRET_KEY"] = "supersecretkeyomg"
 
 app.debug = False
@@ -70,6 +73,31 @@ if app.config["AZURE_STORAGE_CONNECTION_STRING"]:
         connection_string=app.config["AZURE_STORAGE_CONNECTION_STRING"],
         container_name=app.config["AZURE_CONTAINER_NAME"]
     )
+
+# SQLite backups go to a separate private container (they include password hashes)
+app.config["AZURE_BACKUP_CONTAINER_NAME"] = os.getenv(
+    "AZURE_BACKUP_CONTAINER_NAME", "pdf-stories-backups")
+app.config["DB_BACKUP_KEEP"] = int(os.getenv("DB_BACKUP_KEEP", "10"))
+
+db_backup = None
+if azure_storage:
+    db_backup = DatabaseBackup(
+        storage=AzureBlobStorage(
+            connection_string=app.config["AZURE_STORAGE_CONNECTION_STRING"],
+            container_name=app.config["AZURE_BACKUP_CONTAINER_NAME"]
+        ),
+        db_path=app.config["DB_PATH"],
+        keep=app.config["DB_BACKUP_KEEP"],
+        logger=app.logger
+    )
+
+    # On a fresh server there is no database file yet: pull the newest backup
+    restored = db_backup.restore_latest()
+    if restored:
+        print('Restored database from backup => ', restored)
+
+    db_backup.watch_commits()
+    app.extensions["db_backup"] = db_backup
 
 # Legacy local storage configuration (fallback)
 app.config["UPLOAD_FOLDER"] = os.path.join(os.getcwd(), "uploads")

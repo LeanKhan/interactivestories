@@ -142,6 +142,32 @@ class AzureBlobStorage:
             print(f"Error deleting blob {blob_name}: {str(e)}")
             return False
 
+    def list_blobs(self, prefix=''):
+        """
+        List blob names in the container
+
+        Args:
+            prefix: Only return blobs whose names start with this
+
+        Returns:
+            list: Blob names
+        """
+        return [blob.name for blob in self.container_client.list_blobs(name_starts_with=prefix)]
+
+    def download_file(self, blob_name, dest_path):
+        """
+        Download a blob to a local file
+
+        Args:
+            blob_name: Name of the blob
+            dest_path: Local path to write to
+        """
+        blob = BlobClient.from_connection_string(
+            conn_str=self.connection_string, container_name=self.container_name, blob_name=blob_name)
+
+        with open(dest_path, 'wb') as f:
+            blob.download_blob().readinto(f)
+
     def blob_exists(self, blob_name):
         """
         Check if a blob exists

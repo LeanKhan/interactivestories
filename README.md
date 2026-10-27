@@ -14,11 +14,14 @@ You need an Azure cloud storage account if you want to store stories on the clou
 * Clone this repo
 * Create a Python Virtual Environment and install all packages in the pyproject.toml file. (I use UV for package management, idk its cool)
 * Create a `.env` file using `.env.example` as a template.
-* Initialize your db
+* Initialize your db. It's a SQLite file at `instance/stories.db` and is not committed to git. When Azure is configured, the app backs it up to a private container (`AZURE_BACKUP_CONTAINER_NAME`) after every change and keeps the newest `DB_BACKUP_KEEP` backups. On a new server with no database file, it downloads the newest backup on startup. Run `flask --app app backup-db` to back up manually
 * Create your admin user by running `python scripts/cli.py create-user --admin`
 * Start the server by running `python app.py`
 * Load the admin page by visiting `localhost:PORT/admin`
 * Add your stories in PDF version
+
+### Deploying
+Pushes to `main` deploy automatically: the server checks GitHub every minute. Server setup, operations, and moving to a new Azure storage account are covered in [deploy/README.md](deploy/README.md).
 
 ### What about PowerPoint?
 Convert your PPT interactive stories to PDF easily on PowerPoint and then upload them to the website using the attached SQLite admin panel. To launch the admin panel, visit localhost:PORT/admin.

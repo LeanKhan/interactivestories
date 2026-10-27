@@ -1,0 +1,11 @@
+# Installed by the steps in deploy/README.md (APP_USER and APP_DIR are replaced there)
+[Unit]
+Description=Deploy Interactive Stories from GitHub main
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=APP_USER
+WorkingDirectory=APP_DIR
+ExecStart=/usr/bin/env bash APP_DIR/deploy/deploy.sh
